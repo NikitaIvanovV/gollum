@@ -98,7 +98,9 @@ module Precious
 
     before do
       settings.wiki_options[:allow_editing] = settings.wiki_options.fetch(:allow_editing, true)
+      settings.wiki_options[:word_diff] = settings.wiki_options.fetch(:word_diff, false)
       @allow_editing = settings.wiki_options[:allow_editing]
+      @word_diff = settings.wiki_options[:word_diff]
       @critic_markup = settings.wiki_options[:critic_markup]
       @redirects_enabled = settings.wiki_options.fetch(:redirects_enabled, true)
       @per_page_uploads = settings.wiki_options[:per_page_uploads]
@@ -457,6 +459,8 @@ module Precious
         mustache :latest_changes
       end
 
+      NODWDIFF_ERROR_MESSAGE = "dwdiff programm was not found in '%s'. If it is present but Gollum failed to find it, specify its path in the word diff option."
+
       get %r{
         /compare/ # match any URL beginning with /compare/
         (.+)      # extract the full path (including any directories)
@@ -471,7 +475,13 @@ module Precious
         @versions = [start_version, end_version]
         wiki      = wikip.wiki
         @page     = wikip.page
-        @diff     = wiki.repo.diff(@versions.first, @versions.last, @page.path)
+        begin
+          @diff   = wiki.diff(@versions.first, @versions.last, @page.path)
+        rescue Gollum::NoDwdiffFound
+          @message = NODWDIFF_ERROR_MESSAGE % wiki.dwdiff_path
+          return mustache :error
+        end
+
         if @diff.empty?
           @message = 'Could not compare these two revisions, no differences were found.'
           mustache :error
@@ -515,11 +525,14 @@ module Precious
           @commit = wiki.repo.commit(version)
           parent = @commit.parent
           parent_id = parent.nil? ? nil : parent.id
-          @diff = wiki.repo.diff(parent_id, version)
+          @diff = wiki.diff(parent_id, version)
           mustache :commit
         rescue Gollum::Git::NoSuchShaFound
           @message = "Invalid commit: #{@version}"
           mustache :error
+        rescue Gollum::NoDwdiffFound
+          @message = NODWDIFF_ERROR_MESSAGE % wiki.dwdiff_path
+          return mustache :error
         end
       end
 
