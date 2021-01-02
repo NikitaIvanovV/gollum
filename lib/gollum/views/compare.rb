@@ -68,17 +68,14 @@ module Precious
         end
       end
 
-      ADDITION_START = '{+'
-      ADDITION_END = '+}'
-      REMOVAL_START = '[-'
-      REMOVAL_END = '-]'
+      def format_diff_line(line)
+        line = line.gsub('{+', "<span class=#{ADDITION_CLASS}>")
+        line.gsub!('[-', "<span class=#{REMOVAL_CLASS}>")
+        line.gsub!(/(-\]|\+})/, "</span>")
+        unless line.gsub!(/^[+-]/, "<span class=#{ADDITION_CLASS}>").nil?
+          line += "</span>"
+        end
 
-      def add_color_span(line)
-        line = line.dup
-        line.gsub!(ADDITION_START, "<span class=#{ADDITION_CLASS}>")
-        line.gsub!(REMOVAL_START, "<span class=#{REMOVAL_CLASS}>")
-        line.gsub!(ADDITION_END, "</span>")
-        line.gsub!(REMOVAL_END, "</span>")
         line
       end
 
@@ -127,19 +124,12 @@ module Precious
       end
 
       def added_line?(line)
-        if @word_diff
-          line =~ /(^ {\+.+\+}$|^{\+)/
-        else
-          line[0] == ?+
-        end
+        (line[0] == ?+) || !!(line =~ /(^ {\+.+\+}$|^{\+)/ && @word_diff)
       end
 
       def removed_line?(line)
-        if @word_diff
-          line =~ /(^ \[-.+-\]$|^\[)/
-        else
-          line[0] == ?-
-        end
+        (line[0] == ?-) || !!(line =~ /(^ \[-.+-\]$|^\[-)/ && @word_diff)
+      end
 
       def no_new_line_message?(line)
         !!(line =~ /^\\ No newline at end of file$/)
