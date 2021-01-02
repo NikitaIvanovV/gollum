@@ -1,6 +1,13 @@
+require 'erb'
+
 module Precious
   module Views
     class Compare < Layout
+      HEADER_CLASS = 'gc'
+      ADDITION_CLASS = 'gi'
+      REMOVAL_CLASS = 'gd'
+      DEFAULT_CLASS = ''
+
       include HasPage
 
       attr_reader :page, :diff, :versions, :message, :allow_editing
@@ -20,14 +27,20 @@ module Precious
       def lines(diff = @diff)
         lines = []
         lines_to_parse = diff.split("\n")[4..-1]
+
         # If the diff is of a rename, the diff header will be one line longer than normal because it will contain a line starting with '+++' to indicate the 'new' filename.
         # Make sure to skip that header line if it is present.
         lines_to_parse = lines_to_parse[1..-1] if lines_to_parse[0].start_with?('+++')
+
         lines_to_parse.each_with_index do |line, line_index|
+          ldln = left_diff_line_number(line)
+          rdln = right_diff_line_number(line)
+          line = ERB::Util.html_escape(line)
+          line = add_color_span(line) if @word_diff
           lines << { :line  => line,
                      :class => line_class(line),
-                     :ldln  => left_diff_line_number(line),
-                     :rdln  => right_diff_line_number(line) }
+                     :ldln  => ldln,
+                     :rdln  => rdln }
         end if diff
         lines
       end
@@ -40,14 +53,32 @@ module Precious
 
       def line_class(line)
         if line =~ /^@@/
-          'gc'
-        elsif line =~ /^\+/
-          'gi'
-        elsif line =~ /^\-/
-          'gd'
-        else
-          ''
+          return HEADER_CLASS
         end
+
+        return DEFAULT_CLASS if @word_diff
+
+        if line =~ /^\+/
+          ADDITION_CLASS
+        elsif line =~ /^\-/
+          REMOVAL_CLASS
+        else
+          DEFAULT_CLASS
+        end
+      end
+
+      ADDITION_START = '{+'
+      ADDITION_END = '+}'
+      REMOVAL_START = '[-'
+      REMOVAL_END = '-]'
+
+      def add_color_span(line)
+        line = line.dup
+        line.gsub!(ADDITION_START, "<span class=#{ADDITION_CLASS}>")
+        line.gsub!(REMOVAL_START, "<span class=#{REMOVAL_CLASS}>")
+        line.gsub!(ADDITION_END, "</span>")
+        line.gsub!(REMOVAL_END, "</span>")
+        line
       end
 
       @left_diff_line_number = nil
@@ -58,11 +89,11 @@ module Precious
           @left_diff_line_number = li.to_i
           @current_line_number   = @left_diff_line_number
           ret                    = '...'
-        elsif line[0] == ?-
+        elsif removed_line? line
           ret                    = @left_diff_line_number.to_s
           @left_diff_line_number += 1
           @current_line_number   = @left_diff_line_number - 1
-        elsif line[0] == ?+
+        elsif added_line? line
           ret = ' '
         else
           ret                    = @left_diff_line_number.to_s
@@ -80,9 +111,9 @@ module Precious
           @right_diff_line_number = ri.to_i
           @current_line_number    = @right_diff_line_number
           ret                     = '...'
-        elsif line[0] == ?-
+        elsif removed_line? line
           ret = ' '
-        elsif line[0] == ?+
+        elsif added_line? line
           ret                     = @right_diff_line_number.to_s
           @right_diff_line_number += 1
           @current_line_number    = @right_diff_line_number - 1
@@ -93,6 +124,23 @@ module Precious
         end
         ret
       end
+
+      def added_line?(line)
+        if @word_diff
+          line =~ /(^ {\+.+\+}$|^{\+)/
+        else
+          line[0] == ?+
+        end
+      end
+
+      def removed_line?(line)
+        if @word_diff
+          line =~ /(^ \[-.+-\]$|^\[)/
+        else
+          line[0] == ?-
+        end
+      end
+
     end
   end
 end
