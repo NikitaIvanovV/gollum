@@ -36,9 +36,10 @@ module Precious
           ldln = left_diff_line_number(line)
           rdln = right_diff_line_number(line)
           line = ERB::Util.html_escape(line)
-          line = add_color_span(line) if @word_diff
+          klass = line_class(line)
+          line = format_diff_line(line) if @word_diff
           lines << { :line  => line,
-                     :class => line_class(line),
+                     :class => klass,
                      :ldln  => ldln,
                      :rdln  => rdln }
         end if diff
