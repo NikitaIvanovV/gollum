@@ -90,11 +90,11 @@ module Precious
           @left_diff_line_number = li.to_i
           @current_line_number   = @left_diff_line_number
           ret                    = '...'
-        elsif removed_line? line
+        elsif removed_line?(line)
           ret                    = @left_diff_line_number.to_s
           @left_diff_line_number += 1
           @current_line_number   = @left_diff_line_number - 1
-        elsif added_line? line
+        elsif added_line?(line) || no_new_line_message?(line)
           ret = ' '
         else
           ret                    = @left_diff_line_number.to_s
@@ -112,9 +112,9 @@ module Precious
           @right_diff_line_number = ri.to_i
           @current_line_number    = @right_diff_line_number
           ret                     = '...'
-        elsif removed_line? line
+        elsif removed_line?(line) || no_new_line_message?(line)
           ret = ' '
-        elsif added_line? line
+        elsif added_line?(line)
           ret                     = @right_diff_line_number.to_s
           @right_diff_line_number += 1
           @current_line_number    = @right_diff_line_number - 1
@@ -140,6 +140,9 @@ module Precious
         else
           line[0] == ?-
         end
+
+      def no_new_line_message?(line)
+        !!(line =~ /^\\ No newline at end of file$/)
       end
 
     end
