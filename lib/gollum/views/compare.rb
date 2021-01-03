@@ -6,6 +6,7 @@ module Precious
       HEADER_CLASS = 'gc'
       ADDITION_CLASS = 'gi'
       REMOVAL_CLASS = 'gd'
+      GIT_CLASS = 'gg'
       DEFAULT_CLASS = ''
 
       include HasPage
@@ -26,11 +27,15 @@ module Precious
 
       def lines(diff = @diff)
         lines = []
-        lines_to_parse = diff.split("\n")[4..-1]
+        lines_to_parse = diff.split("\n")[2..-1]
+        lines_to_parse = lines_to_parse[1..-1] if lines_to_parse[0].start_with?('index')
+        lines_to_parse = lines_to_parse[2..-1] if lines_to_parse[0].start_with?('---')
 
-        # If the diff is of a rename, the diff header will be one line longer than normal because it will contain a line starting with '+++' to indicate the 'new' filename.
-        # Make sure to skip that header line if it is present.
-        lines_to_parse = lines_to_parse[1..-1] if lines_to_parse[0].start_with?('+++')
+        if lines_to_parse.nil? || lines_to_parse.empty?
+          lines_to_parse = []  # File is created without content
+        else
+          lines_to_parse = lines_to_parse[1..-1] if lines_to_parse[0].start_with?('+++')
+        end
 
         lines_to_parse.each_with_index do |line, line_index|
           ldln = left_diff_line_number(line)
@@ -55,6 +60,8 @@ module Precious
       def line_class(line)
         if line =~ /^@@/
           return HEADER_CLASS
+        elsif git_line?(line)
+          return GIT_CLASS
         end
 
         return DEFAULT_CLASS if @word_diff
@@ -82,7 +89,7 @@ module Precious
       @left_diff_line_number = nil
 
       def left_diff_line_number(line)
-        if line =~ /^@@/
+        if git_line?(line)
           m, li                  = *line.match(/\-(\d+)/)
           @left_diff_line_number = li.to_i
           @current_line_number   = @left_diff_line_number
@@ -104,7 +111,7 @@ module Precious
       @right_diff_line_number = nil
 
       def right_diff_line_number(line)
-        if line =~ /^@@/
+        if git_line?(line)
           m, ri                   = *line.match(/\+(\d+)/)
           @right_diff_line_number = ri.to_i
           @current_line_number    = @right_diff_line_number
@@ -135,6 +142,9 @@ module Precious
         !!(line =~ /^\\ No newline at end of file$/)
       end
 
+      def git_line?(line)
+        !!(line =~ /^(\\ No newline|Binary files|@@)/)
+      end
     end
   end
 end
