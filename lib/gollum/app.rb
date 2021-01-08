@@ -102,6 +102,7 @@ module Precious
       @critic_markup = settings.wiki_options[:critic_markup]
       @redirects_enabled = settings.wiki_options.fetch(:redirects_enabled, true)
       @per_page_uploads = settings.wiki_options[:per_page_uploads]
+      @show_local_time = settings.wiki_options.fetch(:show_local_time, false)
       
       @wiki_title = settings.wiki_options.fetch(:title, 'Gollum Wiki')
 
@@ -167,7 +168,10 @@ module Precious
         content_type :json
         if page = wiki_page(params[:path]).page
           version = page.last_version
-          {:author => version.author.name, :date => version.authored_date}.to_json
+          authored_date = version.authored_date
+          data = {:author => version.author.name, :date => authored_date}
+          data.merge!({:date_iso => authored_date.utc.iso8601}) if @show_local_time
+          data.to_json
         end
       end
 
