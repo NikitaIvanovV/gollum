@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.name              = 'gollum'
   s.version           = '5.1.2'
-  s.date              = '2021-01-03'
+  s.date              = '2021-01-09'
   s.license           = 'MIT'
 
   s.summary     = 'A simple, Git-powered wiki.'
@@ -68,11 +68,11 @@ Gem::Specification.new do |s|
     lib/gollum/app.rb
     lib/gollum/assets.rb
     lib/gollum/helpers.rb
-    lib/gollum/public/assets/.sprockets-manifest-35882cacf71c40928e0c2dc9b8acf8fe.json
+    lib/gollum/public/assets/.sprockets-manifest-5d0e8412e2a8d90e08cc3a6eabfc60ab.json
     lib/gollum/public/assets/app-4215e58002a43c4b2e9f0f7caa05a81c7c09d22a918c6fe40cd8e423db3110b5.css
     lib/gollum/public/assets/app-4215e58002a43c4b2e9f0f7caa05a81c7c09d22a918c6fe40cd8e423db3110b5.css.gz
-    lib/gollum/public/assets/app-6e925e38a12a40c4fa9e0400cc874e0f4f97b66fdeb90a144dea527dbb544fbd.js
-    lib/gollum/public/assets/app-6e925e38a12a40c4fa9e0400cc874e0f4f97b66fdeb90a144dea527dbb544fbd.js.gz
+    lib/gollum/public/assets/app-ec76b5204293253beb03c3f451ffc8ac62b963f3a3143f269009a6e5aca92511.js
+    lib/gollum/public/assets/app-ec76b5204293253beb03c3f451ffc8ac62b963f3a3143f269009a6e5aca92511.js.gz
     lib/gollum/public/assets/criticmarkup-31ae5d3282bbb8e7b7c3c9917e9fb68e3315a6b4a75da6cec48d21b8846905c4.css
     lib/gollum/public/assets/criticmarkup-31ae5d3282bbb8e7b7c3c9917e9fb68e3315a6b4a75da6cec48d21b8846905c4.css.gz
     lib/gollum/public/assets/editor-b621bfe2cb8823516fb3a96c32e82001b297f6754117b47bdad6e59db85a9d08.js
@@ -1151,6 +1151,7 @@ Gem::Specification.new do |s|
     lib/gollum/public/gollum/javascript/ace/worker-xquery.js
     lib/gollum/public/gollum/javascript/app.js
     lib/gollum/public/gollum/javascript/clipboard.min.js
+    lib/gollum/public/gollum/javascript/date.min.js
     lib/gollum/public/gollum/javascript/editor.js
     lib/gollum/public/gollum/javascript/editor/gollum.editor.js
     lib/gollum/public/gollum/javascript/editor/langs/asciidoc.js
