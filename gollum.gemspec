@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.name              = 'gollum'
   s.version           = '5.1.2'
-  s.date              = '2021-01-09'
+  s.date              = '2021-01-11'
   s.license           = 'MIT'
 
   s.summary     = 'A simple, Git-powered wiki.'
@@ -68,7 +68,7 @@ Gem::Specification.new do |s|
     lib/gollum/app.rb
     lib/gollum/assets.rb
     lib/gollum/helpers.rb
-    lib/gollum/public/assets/.sprockets-manifest-5d0e8412e2a8d90e08cc3a6eabfc60ab.json
+    lib/gollum/public/assets/.sprockets-manifest-f2ec058e9a8cd0dd782e95a179ab0ade.json
     lib/gollum/public/assets/app-4215e58002a43c4b2e9f0f7caa05a81c7c09d22a918c6fe40cd8e423db3110b5.css
     lib/gollum/public/assets/app-4215e58002a43c4b2e9f0f7caa05a81c7c09d22a918c6fe40cd8e423db3110b5.css.gz
     lib/gollum/public/assets/app-ec76b5204293253beb03c3f451ffc8ac62b963f3a3143f269009a6e5aca92511.js

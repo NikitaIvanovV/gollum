@@ -46,7 +46,7 @@ module Precious
                      :class => klass,
                      :ldln  => ldln,
                      :rdln  => rdln }
-        end if diff
+        end
         lines
       end
 
