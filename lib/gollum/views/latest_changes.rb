@@ -19,6 +19,7 @@ module Precious
           authored_date = v.authored_date
           { :id          => v.id,
             :id7         => v.id[0..6],
+            :parent_id   => v.parent.nil? ? nil : v.parent.id,
             :href        => page_route("gollum/commit/#{v.id}"),
             :num         => i,
             :author      => v.author.name.respond_to?(:force_encoding) ? v.author.name.force_encoding('UTF-8') : v.author.name,

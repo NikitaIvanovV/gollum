@@ -418,6 +418,28 @@ module Precious
         end
       end
 
+      post '/revert_commit/:sha1/:sha2' do
+        wiki  = wiki_new
+        sha1  = params[:sha1]
+        sha2  = params[:sha2]
+
+        commit           = commit_message
+        commit[:message] = "Revert commit #{sha2.chars.take(7).join}"
+        if wiki.revert_commit(sha1, sha2, commit)
+          redirect back
+          # sha2, sha1 = sha1, "#{sha1}^" if !sha2
+          # @versions  = [sha1, sha2]
+          # @diff      = wiki.repo.diff(@versions.first, @versions.last)
+          # p @diff
+        else
+          sha2, sha1 = sha1, "#{sha1}^" if !sha2
+          @versions  = [sha1, sha2]
+          @diff      = wiki.repo.diff(@versions.first, @versions.last)
+          @message   = 'The patch does not apply.'
+          mustache :compare
+        end
+      end
+
       post '/preview' do
         wiki           = wiki_new
         @name          = params[:page] ? strip_page_name(params[:page]) : 'Preview'

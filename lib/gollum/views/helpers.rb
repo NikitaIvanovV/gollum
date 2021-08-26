@@ -25,6 +25,7 @@ module Precious
           history: 'history',
           rename: 'rename',
           revert: 'revert',
+          revert_commit: 'revert_commit',
           preview: 'preview',
           compare: 'compare',
           search: 'search'

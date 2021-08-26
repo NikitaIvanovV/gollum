@@ -21,6 +21,12 @@
 			<span class="pl-4 float-right">
 				<a href="{{href}}" class="btn btn-outline text-mono">{{id7}}</a>
 			</span>
+			{{#parent_id}}
+			<form name="gollum-revert-{{id7}}" action="{{revert_commit_path}}/{{parent_id}}/{{id}}" method="post" id="gollum-revert-{{id7}}-form"></form>
+			<span class="pl-4 float-right">
+				<button class="btn btn-sm" type="submit" onclick="$('#gollum-revert-{{id7}}-form').submit()">Revert Changes</button>
+			</span>
+			{{/parent_id}}
 		</li>
 	{{/versions}}
 </ul>
