@@ -425,18 +425,19 @@ module Precious
 
         commit           = commit_message
         commit[:message] = "Revert commit #{sha2.chars.take(7).join}"
-        if wiki.revert_commit(sha1, sha2, commit)
+        version = Gollum::Git::Commit.new(wiki.repo.git.lookup(sha2))
+        files = version.stats.files
+        pages = files.map { |f| wiki_page(f[:new_file], version).page }
+        failed = []
+        for page in pages do
+          failed.push(page) unless wiki.revert_page(page, sha2, nil, commit)
+        end
+        
+        if failed.empty?
           redirect back
-          # sha2, sha1 = sha1, "#{sha1}^" if !sha2
-          # @versions  = [sha1, sha2]
-          # @diff      = wiki.repo.diff(@versions.first, @versions.last)
-          # p @diff
         else
-          sha2, sha1 = sha1, "#{sha1}^" if !sha2
-          @versions  = [sha1, sha2]
-          @diff      = wiki.repo.diff(@versions.first, @versions.last)
-          @message   = 'The patch does not apply.'
-          mustache :compare
+          @message = "Failed to apply patch for files: #{failed.map{|p| p.path}.join(', ') }."
+          mustache :error
         end
       end
 
