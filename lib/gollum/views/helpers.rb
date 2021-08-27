@@ -17,6 +17,7 @@ module Precious
           assets: 'assets',
           last_commit_info: 'last_commit_info',
           latest_changes: 'latest_changes',
+          user: 'user',
           upload_file: 'upload_file',
           create: 'create',
           delete: 'delete',

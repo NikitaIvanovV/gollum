@@ -458,6 +458,15 @@ module Precious
         mustache :page
       end
 
+      get '/user/*' do |user_identifier|
+        @wiki = wiki_new
+        @page_num = [params[:page_num].to_i, 1].max
+        @max_count = settings.wiki_options.fetch(:pagination_count, 10)
+        @versions = @wiki.user_changes(user_identifier, ::Gollum::Page.log_pagination_options(per_page: @max_count, page_num: @page_num))
+        @username = user_identifier
+        mustache :user_changes
+      end
+
       get '/history/*' do
         wikip      = wiki_page(params[:splat].first)
         @name      = wikip.fullname

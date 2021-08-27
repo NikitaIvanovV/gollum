@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.name              = 'gollum'
   s.version           = '5.2.1'
-  s.date              = '2021-02-27'
+  s.date              = '2021-08-27'
   s.license           = 'MIT'
 
   s.summary     = 'A simple, Git-powered wiki.'
@@ -69,10 +69,9 @@ Gem::Specification.new do |s|
     lib/gollum/app.rb
     lib/gollum/assets.rb
     lib/gollum/helpers.rb
-    lib/gollum/public/assets/.sprockets-manifest-15b663a27211dc9de9a452b4b74462d7.json
-    lib/gollum/public/assets/.sprockets-manifest-f2ec058e9a8cd0dd782e95a179ab0ade.json
-    lib/gollum/public/assets/app-7a0bbff2e8bad3033e7c17e0e0f886f336a9d23d3b912dcd2ae389c48b4b63e6.css
-    lib/gollum/public/assets/app-7a0bbff2e8bad3033e7c17e0e0f886f336a9d23d3b912dcd2ae389c48b4b63e6.css.gz
+    lib/gollum/public/assets/.sprockets-manifest-2c047d3752c8e1abb329571a6f44ec4b.json
+    lib/gollum/public/assets/app-5e3c27342a4ed3476048a76915f40248a0e4d399a21554724de078f14c44daab.css
+    lib/gollum/public/assets/app-5e3c27342a4ed3476048a76915f40248a0e4d399a21554724de078f14c44daab.css.gz
     lib/gollum/public/assets/app-9d0f1f11b6c36b5c1b13f4dae680aea851d3da83f53f84e35df54ddf15a8d8e2.js
     lib/gollum/public/assets/app-9d0f1f11b6c36b5c1b13f4dae680aea851d3da83f53f84e35df54ddf15a8d8e2.js.gz
     lib/gollum/public/assets/criticmarkup-31ae5d3282bbb8e7b7c3c9917e9fb68e3315a6b4a75da6cec48d21b8846905c4.css
@@ -1204,6 +1203,7 @@ Gem::Specification.new do |s|
     lib/gollum/templates/history_authors/identicon.mustache
     lib/gollum/templates/history_authors/none.mustache
     lib/gollum/templates/latest_changes.mustache
+    lib/gollum/templates/latest_changes_list.mustache
     lib/gollum/templates/layout.mustache
     lib/gollum/templates/mobilenav.mustache
     lib/gollum/templates/navbar.mustache
@@ -1212,6 +1212,7 @@ Gem::Specification.new do |s|
     lib/gollum/templates/pagination.mustache
     lib/gollum/templates/search.mustache
     lib/gollum/templates/searchbar.mustache
+    lib/gollum/templates/user_changes.mustache
     lib/gollum/templates/wiki_content.mustache
     lib/gollum/uri_encode_component.rb
     lib/gollum/views/commit.rb
@@ -1231,6 +1232,7 @@ Gem::Specification.new do |s|
     lib/gollum/views/pagination.rb
     lib/gollum/views/rss.rb
     lib/gollum/views/search.rb
+    lib/gollum/views/user_changes.rb
     licenses/licenses.txt
   ]
   # = MANIFEST =
