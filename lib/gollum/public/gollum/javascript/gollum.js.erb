@@ -435,22 +435,32 @@ $(document).ready(function() {
       exec: previewHotkey
     }
   ];
-
-  if ( $('#wiki-wrapper.edit').length || $('#wiki-wrapper.create').length ) {
+  
+  if ( $('#wiki-wrapper.edit').length || $('#wiki-wrapper.create').length ){
     // Hotkey for moving between Edit and Preview tab
     Mousetrap.bind(['ctrl+shift+p'], previewHotkey);
-  }
 
-  if( $('#wiki-wrapper.edit').length ){
+    var newFile = $('#wiki-wrapper.create').length > 0;
+
     $("#gollum-editor-submit").click( function() { window.onbeforeunload = null; } );
     $("#gollum-editor-body").one('change', function(){
-      window.onbeforeunload = function(){ return "Leaving will discard all edits!" };
+      window.onbeforeunload = function(){
+        return newFile ? "Leaving will not create a new page!" : "Leaving will discard all edits!";
+      };
     });
 
-    $.GollumEditor({
-      section: window.location.hash.substr(1),
-      commands: editorHotkeys // Ace's keybindings overrule mousetrap, so add some of gollum's keyboard shortcuts to the editor, as well.
-    }); 
+    if (newFile) {
+      $.GollumEditor({
+        NewFile: true,
+        MarkupType: default_markup,
+        commands: editorHotkeys  // Ace's keybindings overrule mousetrap, so add some of gollum's keyboard shortcuts to the editor, as well.
+      });
+    } else {
+      $.GollumEditor({
+        section: window.location.hash.substr(1),
+        commands: editorHotkeys
+      });
+    }
 
     $("#gollum-editor-submit").click( function(e) {
       e.preventDefault();
@@ -459,7 +469,11 @@ $(document).ready(function() {
 
       var formData = new FormData($('#gollum-editor-form').get(0));
       var newExt   = '.' + $('#wiki_format option:selected').attr('data-ext');
-      var newPath  = cleanPath(prefixBaseUrl(pagePath() + '/' + pageName() + newExt));
+
+      var pPath = newFile ? $('#gollum-editor-page-path').val() : pagePath();
+      var pName = newFile ? $('#gollum-editor-page-title').val() : pageName();
+      var newPath  = cleanPath(prefixBaseUrl(pPath + '/' + pName + newExt));
+
       var endpoint = $('#gollum-editor-form').attr("action");
 
       $.ajax({
@@ -477,7 +491,7 @@ $(document).ready(function() {
             alert('Someone else has modified this page while you were editing it. Please store your version on disk outside of the browser, reload this page and reapply your modifications.');
           } else {
             alert('Error updating page: ' + textStatus + ' ' + errorThrown);
-          }  
+          }
         }
       });
       
@@ -595,14 +609,6 @@ $(document).ready(function() {
       $("#last-edit").next(".dotted-spinner").toggleClass('hidden')
       $("#page-info-toggle").before('<span id="last-edit-in-progress">&nbsp;Getting commit info...</span>').remove();
     })
-  }
-
-  if( $('#wiki-wrapper.create').length ){
-    $("#gollum-editor-submit").click( function() { window.onbeforeunload = null; } );
-    $("#gollum-editor-body").one('change', function(){
-      window.onbeforeunload = function(){ return "Leaving will not create a new page!" };
-    });
-    $.GollumEditor({ NewFile: true, MarkupType: default_markup, commands: editorHotkeys });
   }
 
   if($('#search-results').length ){

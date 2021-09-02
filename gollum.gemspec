@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.name              = 'gollum'
   s.version           = '5.2.1'
-  s.date              = '2021-08-27'
+  s.date              = '2021-09-02'
   s.license           = 'MIT'
 
   s.summary     = 'A simple, Git-powered wiki.'
