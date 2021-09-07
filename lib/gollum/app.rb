@@ -23,6 +23,7 @@ require 'gollum/views/has_history'
 require 'gollum/views/has_user_icons'
 require 'gollum/views/pagination'
 require 'gollum/views/rss.rb'
+require 'gollum/views/template_cascade'
 
 require File.expand_path '../helpers', __FILE__
 
@@ -116,7 +117,11 @@ module Precious
       @wiki_title = settings.wiki_options.fetch(:title, 'Gollum Wiki')
 
       forbid unless @allow_editing || request.request_method == 'GET'
-      Precious::App.set(:mustache, {:templates => settings.wiki_options[:template_dir]}) if settings.wiki_options[:template_dir]
+
+      if settings.wiki_options[:template_dir]
+        Precious::Views::Layout.extend Precious::Views::TemplateCascade
+        Precious::Views::Layout.template_priority_path = settings.wiki_options[:template_dir]
+      end
 
       @base_url = url('/', false).chomp('/').force_encoding('utf-8')
       @request_url = request.url
