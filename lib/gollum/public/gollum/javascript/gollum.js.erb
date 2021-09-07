@@ -442,7 +442,14 @@ $(document).ready(function() {
 
     var newFile = $('#wiki-wrapper.create').length > 0;
 
+    $("#gollum-editor-cancel").on("action:done", function () { window.history.back(); });
+
     $("#gollum-editor-submit").click( function() { window.onbeforeunload = null; } );
+    $("#gollum-editor-cancel").click( function() {
+      if (confirm(newFile ? "Cancelling will not create a new page!" : "Cancelling will discard all edits!")) {
+        $("#gollum-editor-cancel").trigger("action:done");
+      }
+    });
     $("#gollum-editor-body").one('change', function(){
       window.onbeforeunload = function(){
         return newFile ? "Leaving will not create a new page!" : "Leaving will discard all edits!";
@@ -483,6 +490,7 @@ $(document).ready(function() {
         processData: false,
         contentType: false,
         success: function(data) {
+          $('#gollum-editor-submit').trigger("action:done");
           window.location = newPath;
         },
         error: function(data, textStatus, errorThrown) {
