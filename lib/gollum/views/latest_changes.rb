@@ -5,6 +5,7 @@ module Precious
 
       include Pagination
       include HasUserIcons
+      include HasHistory
 
       attr_reader :wiki
 
@@ -16,6 +17,8 @@ module Precious
         i = @versions.size + 1
         @versions.map do |v|
           i -= 1
+          message = get_message_from_version(v)
+          add_link_to_version_hash!(message)
           authored_date = v.authored_date
           { :id          => v.id,
             :id7         => v.id[0..6],
@@ -23,7 +26,7 @@ module Precious
             :href        => page_route("gollum/commit/#{v.id}"),
             :num         => i,
             :author      => v.author.name.respond_to?(:force_encoding) ? v.author.name.force_encoding('UTF-8') : v.author.name,
-            :message     => v.message.respond_to?(:force_encoding) ? v.message.force_encoding('UTF-8') : v.message,
+            :message     => message,
             :date_full   => authored_date,
             :date        => authored_date.strftime(DATE_FORMAT),
             :datetime    => authored_date.utc.iso8601,
