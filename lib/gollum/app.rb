@@ -425,7 +425,7 @@ module Precious
 
         commit           = commit_message
         commit[:message] = "Revert commit #{sha2.chars.take(7).join}"
-        version = Gollum::Git::Commit.new(wiki.repo.git.lookup(sha2))
+        version = wiki.commit_for sha2
         files = version.stats.files
         pages = files.map { |f| wiki_page(f[:new_file], version).page }
         failed = []
