@@ -426,9 +426,14 @@ module Precious
 
         commit           = commit_message
         commit[:message] = "Revert commit #{sha2.chars.take(7).join}"
-        version = wiki.commit_for sha2
-        files = version.stats.files
-        pages = files.map { |f| wiki_page(f[:new_file], version).page }
+        version2         = wiki.commit_for sha2
+        version1         = wiki.commit_for sha1
+        pages            = []
+        files            = version2.stats.files
+        files.each do |f|
+          pages.push(wiki_file(f[:old_file], version1).file) unless f[:old_file].nil?
+          pages.push(wiki_file(f[:new_file], version2).file) unless f[:new_file].nil?
+        end
         failed = []
         for page in pages do
           failed.push(page) unless wiki.revert_page(page, sha2, nil, commit)
@@ -713,11 +718,23 @@ module Precious
       wiki.update_page(page, name, format, content.to_s, commit)
     end
 
-    def wiki_page(path, version = nil, wiki = nil)
+    def wiki_object(path, version = nil, wiki = nil)
       pathname = (Pathname.new('/') + path).cleanpath
       wiki = wiki_new if wiki.nil?
-      OpenStruct.new(:wiki => wiki, :page => wiki.page(pathname.to_s, version = version),
+      OpenStruct.new(:wiki => wiki,
                      :name => pathname.basename.sub_ext('').to_s, :path => pathname.dirname.to_s, :ext => pathname.extname, :fullname => pathname.basename.to_s, :fullpath => pathname.to_s)
+    end
+
+    def wiki_page(path, version = nil, wiki = nil)
+      object = wiki_object(path, version, wiki)
+      object.page = object.wiki.page(object.fullpath, version = version)
+      object
+    end
+
+    def wiki_file(path, version = nil, wiki = nil)
+      object = wiki_object(path, version, wiki)
+      object.file = object.wiki.file(object.fullpath, version = version)
+      object
     end
 
     def wiki_new
