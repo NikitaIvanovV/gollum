@@ -2,12 +2,12 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html;charset=utf-8">
+  {{>seo_metatags}}
   <meta name="MobileOptimized" content="width">
   <meta name="HandheldFriendly" content="true">
   <meta name="viewport" content="width=device-width">
   {{#sprockets_stylesheet_tag}}app{{/sprockets_stylesheet_tag}}
   {{#sprockets_stylesheet_tag}}print print{{/sprockets_stylesheet_tag}}
-  {{>seo_metatags}}
 
   {{#css}}<link rel="stylesheet" type="text/css" href="{{custom_css}}" media="all">{{/css}}
   {{#noindex}}<meta name="robots" content="noindex, nofollow" />{{/noindex}}
