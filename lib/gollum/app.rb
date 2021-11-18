@@ -106,6 +106,8 @@ module Precious
       @redirects_enabled = settings.wiki_options.fetch(:redirects_enabled, true)
       @per_page_uploads = settings.wiki_options[:per_page_uploads]
       @show_local_time = settings.wiki_options.fetch(:show_local_time, false)
+      @site_theme_color = settings.wiki_options.fetch(:site_theme_color, nil)
+      @site_description = settings.wiki_options.fetch(:site_description, nil)
       
       @wiki_title = settings.wiki_options.fetch(:title, 'Gollum Wiki')
 
@@ -113,6 +115,7 @@ module Precious
       Precious::App.set(:mustache, {:templates => settings.wiki_options[:template_dir]}) if settings.wiki_options[:template_dir]
 
       @base_url = url('/', false).chomp('/').force_encoding('utf-8')
+      @request_url = request.url
       @page_dir = settings.wiki_options[:page_file_dir].to_s
 
       # above will detect base_path when it's used with map in a config.ru

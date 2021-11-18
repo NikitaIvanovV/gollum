@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module Precious
   module Views
     class Page < Layout
@@ -211,6 +213,12 @@ module Precious
         if header_enum?
           VALID_COUNTER_STYLES.include?(metadata['header_enum']) ? metadata['header_enum'] : 'decimal'
         end
+      end
+
+      def meta_description
+          first_paragraph_match = @page.formatted_data.match(%r{<p>[^<]+\w+.*?</p>})
+          return super if first_paragraph_match.nil?
+          Nokogiri::HTML(first_paragraph_match[0]).content
       end
 
       private

@@ -9,10 +9,10 @@ module Precious
       include Precious::Views::SprocketsHelpers
       include Precious::Views::RouteHelpers
       include Precious::Views::OcticonHelpers
-      
+
       alias_method :h, :escape_html
 
-      attr_reader :name, :path
+      attr_reader :name, :path, :request_url
 
       def escaped_name
         CGI.escape(@name)
@@ -57,11 +57,11 @@ module Precious
       def js # custom js
         @js
       end
-      
+
       def critic_markup
         @critic_markup
       end
-      
+
       def per_page_uploads
         @per_page_uploads
       end
@@ -74,11 +74,11 @@ module Precious
       def search
         false
       end
-      
+
       def history
         false
       end
-      
+
       def overview
         false
       end
@@ -86,7 +86,30 @@ module Precious
       def latest_changes
         false
       end
-      
+
+      def metatags
+        true
+      end
+
+      def meta_title
+        title
+      end
+
+      def meta_description
+        @site_description
+      end
+
+      def meta_color
+        @site_theme_color
+      end
+
+      def meta_url
+        @request_url
+      end
+
+      def meta_image
+        false
+      end
     end
   end
 end
