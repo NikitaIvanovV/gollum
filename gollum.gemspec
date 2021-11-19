@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w[README.md LICENSE]
 
   s.add_dependency 'gollum-lib', '~> 5.1.3'
-  s.add_dependency 'rdoc', '~> 6.3'
   s.add_dependency 'kramdown', '~> 2.3'
   s.add_dependency 'kramdown-parser-gfm', '~> 1.1.0'
   s.add_dependency 'sinatra', '~> 2.0'
@@ -73,26 +72,15 @@ Gem::Specification.new do |s|
     lib/gollum/app.rb
     lib/gollum/assets.rb
     lib/gollum/helpers.rb
-    lib/gollum/public/assets/.sprockets-manifest-2c047d3752c8e1abb329571a6f44ec4b.json
-    lib/gollum/public/assets/.sprockets-manifest-854e63efab177e012aa68e5d03e76814.json
-    lib/gollum/public/assets/app-247a18752c1daad3ce151c434a0fad02820297a22b9208950574856ee663b33f.js
-    lib/gollum/public/assets/app-247a18752c1daad3ce151c434a0fad02820297a22b9208950574856ee663b33f.js.gz
-    lib/gollum/public/assets/app-5e3c27342a4ed3476048a76915f40248a0e4d399a21554724de078f14c44daab.css
-    lib/gollum/public/assets/app-5e3c27342a4ed3476048a76915f40248a0e4d399a21554724de078f14c44daab.css.gz
-    lib/gollum/public/assets/app-9d0f1f11b6c36b5c1b13f4dae680aea851d3da83f53f84e35df54ddf15a8d8e2.js
-    lib/gollum/public/assets/app-9d0f1f11b6c36b5c1b13f4dae680aea851d3da83f53f84e35df54ddf15a8d8e2.js.gz
-    lib/gollum/public/assets/app-cb122b4c17500faa5e013cb43334fafcf2dd7d72f694b06d9616f8b33fefb694.css
-    lib/gollum/public/assets/app-cb122b4c17500faa5e013cb43334fafcf2dd7d72f694b06d9616f8b33fefb694.css.gz
-    lib/gollum/public/assets/app-f05401ee374f0c7f48fc2bc08e30b4f4db705861fd5895ed70998683b383bfb5.js
-    lib/gollum/public/assets/app-f05401ee374f0c7f48fc2bc08e30b4f4db705861fd5895ed70998683b383bfb5.js.gz
-    lib/gollum/public/assets/app-f250d431efca47f5c227432d28a65dde5c3a00e0366065350349db8d2c87c1e9.js
-    lib/gollum/public/assets/app-f250d431efca47f5c227432d28a65dde5c3a00e0366065350349db8d2c87c1e9.js.gz
+    lib/gollum/public/assets/.sprockets-manifest-4e39a45c58ab433e0d961ce04adde61d.json
+    lib/gollum/public/assets/app-28e99c3a2c9ae59ae69459fc36310d7a588b3b22eb8edba792280afe2d35f21c.js
+    lib/gollum/public/assets/app-28e99c3a2c9ae59ae69459fc36310d7a588b3b22eb8edba792280afe2d35f21c.js.gz
+    lib/gollum/public/assets/app-bceee0ae8432c2eab398fbb3748e5edf913f162b7b7210b501749f26cba1be73.css
+    lib/gollum/public/assets/app-bceee0ae8432c2eab398fbb3748e5edf913f162b7b7210b501749f26cba1be73.css.gz
     lib/gollum/public/assets/criticmarkup-31ae5d3282bbb8e7b7c3c9917e9fb68e3315a6b4a75da6cec48d21b8846905c4.css
     lib/gollum/public/assets/criticmarkup-31ae5d3282bbb8e7b7c3c9917e9fb68e3315a6b4a75da6cec48d21b8846905c4.css.gz
-    lib/gollum/public/assets/editor-35b181ccc6b349a22922fcf34de6817f3caf1c49be37c96175602bfe6a7616ca.js
-    lib/gollum/public/assets/editor-35b181ccc6b349a22922fcf34de6817f3caf1c49be37c96175602bfe6a7616ca.js.gz
-    lib/gollum/public/assets/editor-9881d0c7ae663293f0e3a7e72729eec7e940fa613185c076709b76d292f5703a.js
-    lib/gollum/public/assets/editor-9881d0c7ae663293f0e3a7e72729eec7e940fa613185c076709b76d292f5703a.js.gz
+    lib/gollum/public/assets/editor-a13da6740893cb277ef81414fe64c4cc90f0c32b7b9945570faf5a37e2d16d2d.js
+    lib/gollum/public/assets/editor-a13da6740893cb277ef81414fe64c4cc90f0c32b7b9945570faf5a37e2d16d2d.js.gz
     lib/gollum/public/assets/print-512498c368be0d3fb1ba105dfa84289ae48380ec9fcbef948bd4e23b0b095bfb.css
     lib/gollum/public/assets/print-512498c368be0d3fb1ba105dfa84289ae48380ec9fcbef948bd4e23b0b095bfb.css.gz
     lib/gollum/public/gollum/javascript/HOWTO_UPDATE_ACE.md
@@ -1250,6 +1238,7 @@ Gem::Specification.new do |s|
     lib/gollum/views/pagination.rb
     lib/gollum/views/rss.rb
     lib/gollum/views/search.rb
+    lib/gollum/views/template_cascade.rb
     lib/gollum/views/user_changes.rb
     licenses/licenses.txt
   ]
