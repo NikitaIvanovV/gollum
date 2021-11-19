@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9'
 
   s.name              = 'gollum'
-  s.version           = '5.2.1'
-  s.date              = '2021-09-09'
+  s.version           = '5.2.3'
+  s.date              = '2021-11-19'
   s.license           = 'MIT'
 
   s.summary     = 'A simple, Git-powered wiki.'
@@ -23,12 +23,13 @@ Gem::Specification.new do |s|
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = %w[README.md LICENSE]
 
-  s.add_dependency 'gollum-lib', '~> 5.1'
+  s.add_dependency 'gollum-lib', '~> 5.1.3'
+  s.add_dependency 'rdoc', '~> 6.3'
   s.add_dependency 'kramdown', '~> 2.3'
   s.add_dependency 'kramdown-parser-gfm', '~> 1.1.0'
   s.add_dependency 'sinatra', '~> 2.0'
   s.add_dependency 'sinatra-contrib', '~> 2.0'
-  s.add_dependency 'mustache-sinatra', '~> 1.0'
+  s.add_dependency 'mustache-sinatra', '>= 1.0.1', '< 2'
   s.add_dependency 'useragent', '~> 0.16.2'
   s.add_dependency 'gemojione', '~> 4.1'
   s.add_dependency 'octicons', '~> 12.0'
@@ -39,6 +40,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rss', '~> 0.2.9'
   s.add_dependency 'therubyrhino', '~> 2.1.0'
   s.add_dependency 'webrick', '~> 1.7'
+  s.add_dependency 'i18n', '~> 1.8'
 
   s.add_development_dependency 'rack-test', '~> 0.6.3'
   s.add_development_dependency 'shoulda', '~> 3.6.0'
@@ -50,6 +52,7 @@ Gem::Specification.new do |s|
   # = MANIFEST =
   s.files = %w[
     CONTRIBUTING.md
+    Dockerfile
     Gemfile
     HISTORY.md
     LICENSE
@@ -64,26 +67,32 @@ Gem::Specification.new do |s|
     contrib/openrc/init.d/gollum
     contrib/systemd/gollum@.service
     contrib/sysv-debian/init.d/gollum
+    docker-run.sh
     gollum.gemspec
     lib/gollum.rb
     lib/gollum/app.rb
     lib/gollum/assets.rb
     lib/gollum/helpers.rb
     lib/gollum/public/assets/.sprockets-manifest-2c047d3752c8e1abb329571a6f44ec4b.json
+    lib/gollum/public/assets/.sprockets-manifest-854e63efab177e012aa68e5d03e76814.json
     lib/gollum/public/assets/app-247a18752c1daad3ce151c434a0fad02820297a22b9208950574856ee663b33f.js
     lib/gollum/public/assets/app-247a18752c1daad3ce151c434a0fad02820297a22b9208950574856ee663b33f.js.gz
     lib/gollum/public/assets/app-5e3c27342a4ed3476048a76915f40248a0e4d399a21554724de078f14c44daab.css
     lib/gollum/public/assets/app-5e3c27342a4ed3476048a76915f40248a0e4d399a21554724de078f14c44daab.css.gz
     lib/gollum/public/assets/app-9d0f1f11b6c36b5c1b13f4dae680aea851d3da83f53f84e35df54ddf15a8d8e2.js
     lib/gollum/public/assets/app-9d0f1f11b6c36b5c1b13f4dae680aea851d3da83f53f84e35df54ddf15a8d8e2.js.gz
+    lib/gollum/public/assets/app-cb122b4c17500faa5e013cb43334fafcf2dd7d72f694b06d9616f8b33fefb694.css
+    lib/gollum/public/assets/app-cb122b4c17500faa5e013cb43334fafcf2dd7d72f694b06d9616f8b33fefb694.css.gz
+    lib/gollum/public/assets/app-f05401ee374f0c7f48fc2bc08e30b4f4db705861fd5895ed70998683b383bfb5.js
+    lib/gollum/public/assets/app-f05401ee374f0c7f48fc2bc08e30b4f4db705861fd5895ed70998683b383bfb5.js.gz
     lib/gollum/public/assets/app-f250d431efca47f5c227432d28a65dde5c3a00e0366065350349db8d2c87c1e9.js
     lib/gollum/public/assets/app-f250d431efca47f5c227432d28a65dde5c3a00e0366065350349db8d2c87c1e9.js.gz
     lib/gollum/public/assets/criticmarkup-31ae5d3282bbb8e7b7c3c9917e9fb68e3315a6b4a75da6cec48d21b8846905c4.css
     lib/gollum/public/assets/criticmarkup-31ae5d3282bbb8e7b7c3c9917e9fb68e3315a6b4a75da6cec48d21b8846905c4.css.gz
     lib/gollum/public/assets/editor-35b181ccc6b349a22922fcf34de6817f3caf1c49be37c96175602bfe6a7616ca.js
     lib/gollum/public/assets/editor-35b181ccc6b349a22922fcf34de6817f3caf1c49be37c96175602bfe6a7616ca.js.gz
-    lib/gollum/public/assets/editor-db10c8351306e92f1926ba225d0cd9c8e886482b3b9820a85825ec3abab5f1cf.js
-    lib/gollum/public/assets/editor-db10c8351306e92f1926ba225d0cd9c8e886482b3b9820a85825ec3abab5f1cf.js.gz
+    lib/gollum/public/assets/editor-9881d0c7ae663293f0e3a7e72729eec7e940fa613185c076709b76d292f5703a.js
+    lib/gollum/public/assets/editor-9881d0c7ae663293f0e3a7e72729eec7e940fa613185c076709b76d292f5703a.js.gz
     lib/gollum/public/assets/print-512498c368be0d3fb1ba105dfa84289ae48380ec9fcbef948bd4e23b0b095bfb.css
     lib/gollum/public/assets/print-512498c368be0d3fb1ba105dfa84289ae48380ec9fcbef948bd4e23b0b095bfb.css.gz
     lib/gollum/public/gollum/javascript/HOWTO_UPDATE_ACE.md
@@ -1218,6 +1227,7 @@ Gem::Specification.new do |s|
     lib/gollum/templates/pagination.mustache
     lib/gollum/templates/search.mustache
     lib/gollum/templates/searchbar.mustache
+    lib/gollum/templates/seo_metatags.mustache
     lib/gollum/templates/user_changes.mustache
     lib/gollum/templates/wiki_content.mustache
     lib/gollum/uri_encode_component.rb
@@ -1231,6 +1241,7 @@ Gem::Specification.new do |s|
     lib/gollum/views/has_page.rb
     lib/gollum/views/has_user_icons.rb
     lib/gollum/views/helpers.rb
+    lib/gollum/views/helpers/locale_helpers.rb
     lib/gollum/views/history.rb
     lib/gollum/views/latest_changes.rb
     lib/gollum/views/layout.rb
