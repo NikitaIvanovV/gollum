@@ -7,3 +7,5 @@ end
 gemspec
 
 gem 'rake', '~> 13.0'
+gem 'gollum-lib', :github => 'NikitaIvanovV/gollum-lib'
+gem 'gollum-rugged_adapter', :github => 'NikitaIvanovV/rugged_adapter'
