@@ -158,7 +158,7 @@ module Precious
       get '/feed/' do
         url = "#{env['rack.url_scheme']}://#{env['HTTP_HOST']}"
         changes = wiki_new.latest_changes(::Gollum::Page.log_pagination_options(
-          per_page: settings.wiki_options.fetch(:pagination_count, 10),
+          per_page: settings.wiki_options.fetch(:rss_pagination_count, settings.wiki_options.fetch(:pagination_count, 10)),
           page_num: 0)
         )
         content_type :rss
