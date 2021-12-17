@@ -36,7 +36,7 @@ class RSSView
             end
           end
           author_name = @username_converter.call(change.author.name)
-          item.description = "Commited by: <a href=\"#{@base_url}/gollum/user/#{change.author.name}\">#{author_name}</a><br/>Commit ID: #{id[0..6]}<br/><br/>Affected files:<ul>#{files.join}</ul>"
+          item.description = "Commited by: <a href=\"#{@base_url}/gollum/user/#{change.author.name}\">#{author_name}</a><br/>Commit ID: <a href=\"#{@base_url}/gollum/commit/#{id}\">#{id[0..6]}</a><br/><br/>Affected files:<ul>#{files.join}</ul>"
         end
       end
     end.to_s
