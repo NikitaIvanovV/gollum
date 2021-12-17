@@ -113,6 +113,7 @@ module Precious
       @show_local_time = settings.wiki_options.fetch(:show_local_time, false)
       @site_theme_color = settings.wiki_options.fetch(:site_theme_color, nil)
       @site_description = settings.wiki_options.fetch(:site_description, nil)
+      @username_converter = settings.wiki_options.fetch(:username_converter, method(:dummy_username_converter))
 
       @wiki_title = settings.wiki_options.fetch(:title, 'Gollum Wiki')
 
@@ -161,7 +162,7 @@ module Precious
           page_num: 0)
         )
         content_type :rss
-        RSSView.new(@base_url, @wiki_title, url, changes).render
+        RSSView.new(@base_url, @wiki_title, url, changes, @username_converter).render
       end
 
       get '/assets/mathjax/*' do
@@ -772,6 +773,10 @@ module Precious
           (settings.wiki_options[:per_page_uploads] ?
               path : 'uploads'
           ) : ''
+    end
+
+    def dummy_username_converter(username)
+      username
     end
 
   end
