@@ -29,7 +29,8 @@ module Precious
           revert_commit: 'revert_commit',
           preview: 'preview',
           compare: 'compare',
-          search: 'search'
+          search: 'search',
+          commit: 'commit'
         }
       }
 
