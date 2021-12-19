@@ -151,7 +151,7 @@ module Precious
     end
 
     get '/' do
-      redirect clean_url(::File.join(@base_url, wiki_new.index_page))
+      redirect clean_url(::Gollum::Page.simple_path(::File.join(@base_url, wiki_new.index_page)))
     end
 
     namespace '/gollum' do
@@ -677,6 +677,9 @@ module Precious
     def show_page_or_file(fullpath)
       wiki = wiki_new
       if page = wiki.page(fullpath)
+        # Redirect to simple path if full path is given
+        simple_path = ::Gollum::Page.simple_path(fullpath)
+        redirect to(simple_path) unless fullpath == simple_path
         @page          = page
         @name          = page.filename_stripped
         @content       = page.formatted_data
