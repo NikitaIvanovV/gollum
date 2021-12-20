@@ -14,6 +14,10 @@ module Precious
         @commit.author.name
       end
 
+      def author_url
+        "#{user_path}/#{@commit.author.name}"
+      end
+
       def authored_date
         @commit.authored_date
       end
