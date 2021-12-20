@@ -37,9 +37,11 @@ module Precious
           match = diff.match(%r{^diff --git (")?[ab]/(.+)(?(1)") (")?[ab]/(.+)(?(3)")})
           path = match[2]
           path = match[4] if path.nil?
+          url = "#{page_route(path)}/#{version}"
 
           {
             path: path,
+            url: url,
             lines: lines(diff)
           }
         end
