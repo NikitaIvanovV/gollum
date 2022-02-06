@@ -14,6 +14,7 @@ require 'pathname'
 
 require 'gollum'
 require 'gollum/assets'
+require 'gollum/user'
 require 'gollum/views/helpers'
 require 'gollum/views/helpers/locale_helpers'
 require 'gollum/views/layout'
@@ -113,7 +114,8 @@ module Precious
       @show_local_time = settings.wiki_options.fetch(:show_local_time, false)
       @site_theme_color = settings.wiki_options.fetch(:site_theme_color, nil)
       @site_description = settings.wiki_options.fetch(:site_description, nil)
-      @username_converter = settings.wiki_options.fetch(:username_converter, method(:dummy_username_converter))
+
+      User.set_username_converter settings.wiki_options.fetch(:username_converter, method(:dummy_username_converter))
 
       @wiki_title = settings.wiki_options.fetch(:title, 'Gollum Wiki')
 
@@ -162,7 +164,7 @@ module Precious
           page_num: 0)
         )
         content_type :rss
-        RSSView.new(@base_url, @wiki_title, url, changes, @username_converter).render
+        RSSView.new(@base_url, @wiki_title, url, changes).render
       end
 
       get '/assets/mathjax/*' do

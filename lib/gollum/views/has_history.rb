@@ -19,5 +19,9 @@ module Precious
             "<a href=#{href}>#{s}</a>"
         end
     end
+
+    def version_author(v)
+      User.new(v.author.name).uid
+    end
   end
 end

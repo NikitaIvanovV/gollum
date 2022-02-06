@@ -30,7 +30,8 @@ module Precious
             :href_page   => page_route("#{filename}/#{v.id}"),
             :num         => i,
             :selected    => @page.version.id == v.id,
-            :author      => v.author.name.respond_to?(:force_encoding) ? v.author.name.force_encoding('UTF-8') : v.author.name,
+            :author_name => version_author(v),
+            :author      => v.author.name,
             :message     => message,
             :date_full   => authored_date,
             :date        => authored_date.strftime(DATE_FORMAT),
@@ -41,7 +42,7 @@ module Precious
           }
         end
       end
-      
+
       def editable
         @editable
       end

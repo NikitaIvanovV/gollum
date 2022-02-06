@@ -11,7 +11,7 @@ module Precious
       end
 
       def author
-        @commit.author.name
+        User.new(@commit.author.name).uid
       end
 
       def author_url
@@ -21,7 +21,7 @@ module Precious
       def authored_date
         @commit.authored_date
       end
-      
+
       def datetime
         authored_date.utc.iso8601
       end

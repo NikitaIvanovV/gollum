@@ -9,7 +9,7 @@ module Precious
       end
 
       def username
-        @username
+        User.new(@username).uid
       end
 
     end

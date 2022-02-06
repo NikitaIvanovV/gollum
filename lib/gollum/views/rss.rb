@@ -7,12 +7,11 @@ class RSSView
   
   attr_reader :base_url
   
-  def initialize(base_url, wiki_title, url, changes, username_converter)
+  def initialize(base_url, wiki_title, url, changes)
     @base_url = base_url
     @wiki_title = wiki_title
     @url = url
     @changes = changes
-    @username_converter = username_converter
   end
   
   def render
@@ -35,8 +34,9 @@ class RSSView
               "<li><a href=\"#{@url}#{page_route(f)}/#{id}\">#{f}</a></li>"
             end
           end
-          author_name = @username_converter.call(change.author.name)
-          item.description = "Commited by: <a href=\"#{@url}#{user_path}/#{change.author.name}\">#{author_name}</a><br/>Commit ID: <a href=\"#{@url}#{commit_path}/#{id}\">#{id[0..6]}</a><br/><br/>Affected files:<ul>#{files.join}</ul>"
+          user = Precious::User.new change.author.name
+          author_name = user.username.nil? ? 'Unknown' : user.username
+          item.description = "Commited by: #{author_name}<br/>Commit ID: <a href=\"#{@url}#{commit_path}/#{id}\">#{id[0..6]}</a><br/><br/>Affected files:<ul>#{files.join}</ul>"
         end
       end
     end.to_s
