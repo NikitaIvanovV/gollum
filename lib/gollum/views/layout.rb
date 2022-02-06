@@ -13,7 +13,7 @@ module Precious
 
       alias_method :h, :escape_html
 
-      attr_reader :name, :path, :request_url
+      attr_reader :name, :path, :request_url, :logged_in
 
       def escaped_name
         CGI.escape(@name)
@@ -110,6 +110,10 @@ module Precious
 
       def meta_image
         false
+      end
+
+      def login_url
+        "#{login_path}?page=#{@request_url}"
       end
     end
   end

@@ -30,7 +30,8 @@ module Precious
           preview: 'preview',
           compare: 'compare',
           search: 'search',
-          commit: 'commit'
+          commit: 'commit',
+          login: 'login',
         }
       }
 

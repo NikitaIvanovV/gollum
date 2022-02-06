@@ -128,6 +128,7 @@ module Precious
 
       @base_url = url('/', false).chomp('/').force_encoding('utf-8')
       @request_url = request.url
+      @logged_in = !session['gollum.author'].nil?
       @page_dir = settings.wiki_options[:page_file_dir].to_s
 
       # above will detect base_path when it's used with map in a config.ru
