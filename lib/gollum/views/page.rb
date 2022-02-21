@@ -221,12 +221,23 @@ module Precious
       end
 
       def meta_description
-          first_paragraph_match = @page.formatted_data.match(%r{<p>[^<]+\w+.*?</p>})
-          return super if first_paragraph_match.nil?
-          Nokogiri::HTML(first_paragraph_match[0]).content
+        p = get_first_match(%r{<p>[^<]+\w+.*?</p>})
+        return super if p.nil?
+        Nokogiri::HTML::DocumentFragment.parse(p).content
+      end
+
+      def meta_image
+        i = get_first_match(%r{<img.*?>[^<]*?</img>|<img.*?/>})
+        return super if i.nil?
+        @request_base_url + Nokogiri::HTML::DocumentFragment.parse(i).children[0]['src']
       end
 
       private
+
+      def get_first_match(pattern)
+        m = @page.formatted_data.match(pattern)
+        return m.nil? ? nil : m[0]
+      end
 
       # Wraps page formatted data to Nokogiri::HTML document.
       #

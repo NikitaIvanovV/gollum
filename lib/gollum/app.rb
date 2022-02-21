@@ -128,6 +128,7 @@ module Precious
 
       @base_url = url('/', false).chomp('/').force_encoding('utf-8')
       @request_url = request.url
+      @request_base_url = request.base_url
       @logged_in = !session['gollum.author'].nil?
       @page_dir = settings.wiki_options[:page_file_dir].to_s
 
