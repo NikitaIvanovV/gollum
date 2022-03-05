@@ -118,6 +118,7 @@ module Precious
       User.set_username_converter settings.wiki_options.fetch(:username_converter, method(:dummy_username_converter))
 
       @wiki_title = settings.wiki_options.fetch(:title, 'Gollum Wiki')
+      @default_keybinding = settings.wiki_options.fetch(:default_keybinding, 'default')
 
       forbid unless @allow_editing || request.request_method == 'GET'
 

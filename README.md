@@ -131,6 +131,7 @@ Gollum comes with the following command line options:
 | --template-page   | none      | Use _Template in root as a template for new pages. Must be committed. |
 | --word-diff       | [PATH]      | Show diff of words instead of lines. `dwdiff` programm must be installed on a machine. You can specify path to the executable in the optional parameter. |
 | --emoji           | none      | Parse and interpret emoji tags (e.g. `:heart:`) except when the leading colon is backslashed (e.g. `\:heart:`). |
+| --default-keybind | none      | Set the default keybinding for editable pages. Can be set to `vim`, or `emacs`. Default: `default` | 
 | --lenient-tag-lookup | none | Internal links resolve case-insensitively, will treat spaces as hyphens, and will match the first page found with a certain filename, anywhere in the repository. Provides compatibility with Gollum 4.x. |
 | --help            | none      | Display the list of options on the command line. |
 | --version         | none      | Display the current version of Gollum. |
