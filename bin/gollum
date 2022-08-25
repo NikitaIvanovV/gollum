@@ -127,10 +127,6 @@ MSG
     wiki_options[:allow_uploads]    = true
     wiki_options[:per_page_uploads] = true if mode == :page
   end
-  opts.on('--word-diff [PATH]', "Show diff of words instead of lines similar to 'git diff --word-diff'.") do |path|
-    wiki_options[:word_diff] = true
-    wiki_options[:dwdiff_path] = path
-  end
   opts.on('--mathjax', 'Enable MathJax (renders mathematical equations).',
     'By default, uses the \'TeX-AMS-MML_HTMLorMML\' config with the \'autoload-all\' extension.') do
     wiki_options[:mathjax] = true
