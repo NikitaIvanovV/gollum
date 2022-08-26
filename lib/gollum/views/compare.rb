@@ -1,4 +1,5 @@
 require 'erb'
+require 'gollum/diff'
 
 module Precious
   module Views
@@ -26,6 +27,8 @@ module Precious
       end
 
       def lines(diff = @diff)
+        diff = Diff.new(diff).to_s
+
         lines = []
         lines_to_parse = diff.split("\n")[3..-1]
         lines_to_parse = lines_to_parse[2..-1] if lines_to_parse[0] =~ /^(---|rename to )/
@@ -41,7 +44,7 @@ module Precious
           rdln = right_diff_line_number(line)
           line = ERB::Util.html_escape(line)
           klass = line_class(line)
-          line = format_diff_line(line) if @word_diff
+          line = format_diff_line(line)
           lines << { :line  => line,
                      :class => klass,
                      :ldln  => ldln,
@@ -63,8 +66,6 @@ module Precious
           return GIT_CLASS
         end
 
-        return DEFAULT_CLASS if @word_diff
-
         if line =~ /^\+/
           ADDITION_CLASS
         elsif line =~ /^\-/
@@ -75,13 +76,8 @@ module Precious
       end
 
       def format_diff_line(line)
-        line = line.gsub('{+', "<span class=#{ADDITION_CLASS}>")
-        line.gsub!('[-', "<span class=#{REMOVAL_CLASS}>")
-        line.gsub!(/(-\]|\+})/, "</span>")
-        unless line.gsub!(/^[+-]/, "<span class=#{ADDITION_CLASS}>").nil?
-          line += "</span>"
-        end
-
+        line.sub!(Diff::MARK, %{<span class="x">})
+        line.sub!(Diff::MARK, %{</span>})
         line
       end
 
@@ -130,11 +126,11 @@ module Precious
       end
 
       def added_line?(line)
-        (line[0] == ?+) || !!(line =~ /(^ {\+.+\+}$|^{\+)/ && @word_diff)
+        (line[0] == ?+)
       end
 
       def removed_line?(line)
-        (line[0] == ?-) || !!(line =~ /(^ \[-.+-\]$|^\[-)/ && @word_diff)
+        (line[0] == ?-)
       end
 
       def no_new_line_message?(line)

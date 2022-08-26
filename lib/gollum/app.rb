@@ -105,9 +105,7 @@ module Precious
 
     before do
       settings.wiki_options[:allow_editing] = settings.wiki_options.fetch(:allow_editing, true)
-      settings.wiki_options[:word_diff] = settings.wiki_options.fetch(:word_diff, false)
       @allow_editing = settings.wiki_options[:allow_editing]
-      @word_diff = settings.wiki_options[:word_diff]
       @critic_markup = settings.wiki_options[:critic_markup]
       @redirects_enabled = settings.wiki_options.fetch(:redirects_enabled, true)
       @per_page_uploads = settings.wiki_options[:per_page_uploads]
