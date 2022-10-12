@@ -10,6 +10,10 @@ module Precious
       GIT_CLASS = 'gg'
       DEFAULT_CLASS = ''
 
+      LINE_CHAR_ADD = '+'
+      LINE_CHAR_REMOVE = '-'
+      LINE_CHAR_NONE = ' '
+
       include HasPage
 
       attr_reader :page, :diff, :versions, :message, :allow_editing
@@ -66,9 +70,9 @@ module Precious
           return GIT_CLASS
         end
 
-        if line =~ /^\+/
+        if line[0] == LINE_CHAR_ADD
           ADDITION_CLASS
-        elsif line =~ /^\-/
+        elsif line[0] == LINE_CHAR_REMOVE
           REMOVAL_CLASS
         else
           DEFAULT_CLASS
@@ -76,6 +80,9 @@ module Precious
       end
 
       def format_diff_line(line)
+        if [LINE_CHAR_NONE, LINE_CHAR_ADD, LINE_CHAR_REMOVE].include? line[0]
+          line = line[1..]
+        end
         line.sub!(Diff::MARK, %{<span class="x">})
         line.sub!(Diff::MARK, %{</span>})
         line
